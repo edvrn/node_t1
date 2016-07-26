@@ -64,4 +64,14 @@ app.post('/', function (req, res) {
 })
 
 
+app.get('/last10', function (req, res){
+    var last10 = [];
+    last10.push({req: 'hellj', res: 'привет мир'});
+    last10.push({req: 'ehf', res: 'п пароарапвет мир'});
+    last10.push({req: 'zs we', res: 'пр в пава пваир'});
+    
+})
+
+
+
 app.listen(3000, function () { console.log('заеблось на 3000 порту') });
