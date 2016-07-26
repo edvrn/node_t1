@@ -1,13 +1,13 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoder({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var templating = require('consolidate');
 app.engine('hbs', templating.handlebars);
 app.set('view engine', 'hbs');
-app.set('views', _dirname + ''); // + '/view'
+app.set('views', __dirname + ''); // + '/view'
 
 var request = require('request');
 var urlutils = require('url');
@@ -39,24 +39,21 @@ app.post('/', function(req, res){
         });
 
         request.get({url: url, json: true}, 
-            function(error, response, json){
-                var data = {};
-                
-                if (error || json.code != 200 ){
-                    data = {
-                        title: "ошибка при переводе слова " + req.body.text,
-                        error: json.message
-                    }
-                }else{
-                    data = {
-                        title:"перевод слова " + req.body.text + " произведен!"
-                    }
+        function(error, response, json){
+            var data = {};
+            
+            if (error || json.code != 200 ){
+                data = {
+                    title: "ошибка при переводе слова " + req.body.text ,
+                    error: json.message
                 }
-                render('translator', data);
+            }else{
+                data = {
+                    title:'перевод слова ' + req.body.text + ": "  + json.text  
+                }
+            }
+            render('translator', data);
             });
-
-
-
 
 
 
@@ -67,3 +64,4 @@ app.post('/', function(req, res){
 })
 
 
+app.listen(3000, function(){console.log('заеблось на 3000 порту')});
