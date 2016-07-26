@@ -69,7 +69,10 @@ app.get('/last10', function (req, res){
     last10.push({req: 'hellj', res: 'привет мир'});
     last10.push({req: 'ehf', res: 'п пароарапвет мир'});
     last10.push({req: 'zs we', res: 'пр в пава пваир'});
-    
+    res.render('last10', {
+        title: 'последние для примера',
+        words: last10
+    })
 })
 
 
