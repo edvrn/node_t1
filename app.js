@@ -12,8 +12,8 @@ app.set('views', __dirname + ''); // + '/view'
 var request = require('request');
 var urlutils = require('url');
 
-app.get('/', function(req, res){
-    res.render ('translator',{
+app.get('/', function (req, res) {
+    res.render('translator', {
         title: 'Заполни форму, падла!'
     });
 });
@@ -21,15 +21,15 @@ app.get('/', function(req, res){
 
 
 
-app.post('/', function(req, res){
-    if (!req.body.text || req.body.text == "" ){
-        res.render('translator',{
+app.post('/', function (req, res) {
+    if (!req.body.text || req.body.text == "") {
+        res.render('translator', {
             title: "Веедите слово для перевода"
         });
-    }else{
+    } else {
         var url = urlutils.format({
-            protokol: 'https',
-            hostname: 'translate.yandex.ru',
+            protocol: 'https',
+            hostname: 'translate.yandex.net',
             pathname: 'api/v1.5/tr.json/translate',
             query: {
                 key: 'trnsl.1.1.20160726T120412Z.9c0dec7207e72365.39e8fcdd3ab465305de98677ebf6b3481a7b0da6',
@@ -38,21 +38,21 @@ app.post('/', function(req, res){
             }
         });
 
-        request.get({url: url, json: true}, 
-        function(error, response, json){
-            var data = {};
-            
-            if (error || json.code != 200 ){
-                data = {
-                    title: "ошибка при переводе слова " + req.body.text ,
-                    error: error.message
+        request.get({ url: url, json: true },
+            function (error, response, json) {
+                var data = {};
+
+                if (error || json.code != 200) {
+                    data = {
+                        title: "ошибка при переводе слова " + req.body.text,
+                        error: json.message
+                    }
+                } else {
+                    data = {
+                        title: 'перевод слова ' + req.body.text + ": " + json.text
+                    }
                 }
-            }else{
-                data = {
-                    title:'перевод слова ' + req.body.text + ": "  + json.text  
-                }
-            }
-            res.render('translator', data);
+                res.render('translator', data);
             });
 
 
@@ -64,4 +64,4 @@ app.post('/', function(req, res){
 })
 
 
-app.listen(3000, function(){console.log('заеблось на 3000 порту')});
+app.listen(3000, function () { console.log('заеблось на 3000 порту') });
