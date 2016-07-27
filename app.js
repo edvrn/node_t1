@@ -45,7 +45,7 @@ app.post('/', function (req, res) {
                 if (error || json.code != 200) {
                     data = {
                         title: "ошибка при переводе слова " + req.body.text,
-                        error: json.message
+                        error: error.message
                     }
                 } else {
                     data = {
